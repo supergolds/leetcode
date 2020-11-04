@@ -1,24 +1,34 @@
-"""
-1. 이 코드는 각 케이스를 하나하나 씩 비교해가며 정답을 찾는 그리디 알고리즘
-그러나 시간이 너무 오래걸려서 오답이 떴다.
-
 class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        answer = 0
-        size = len(height)
-        for i in range(size):
-            chk = height[i]
-            for j in range(i + 1, size):
-                cmp = height[j]
-                if chk <= cmp:
-                    tmp = (j - i) * chk
-                    if tmp > answer:
-                        answer = tmp
-                else:
-                    tmp = (j - i) * cmp
-                    if tmp > answer:
-                        answer = tmp
+    def maxArea(self, height) -> int:
+        answer, area = 0, 0
+        big = max(height)
+        gap = big
+        start = height.index(max(height))
+        end = len(height)
 
-        return answer
-"""
+        for idx in range(0, start):
+            gap = idx - start
+            if height[idx] < big:
+                wall = height[idx]
+            else:
+                wall = big
+            area = wall * gap
+            if answer < area:
+                answer = area
 
+        for idx in range(start, end):
+            gap = idx - start
+            if height[idx] < big:
+                wall = height[idx]
+            else:
+                wall = big
+            area = wall * gap
+            if answer < area:
+                answer = area
+
+        return area
+
+
+sol = Solution()
+test = [1, 2, 1]
+print(sol.maxArea(test))
